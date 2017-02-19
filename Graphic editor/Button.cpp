@@ -1,11 +1,21 @@
 #include "Button.h"
 
 
-Button::Button(const Texture *texture1, const Texture *texture2): bg1(texture1), bg2(texture2), sw(false)
+Button::Button(Texture texture1, Texture texture2, Text text, Vector2f position)
 {
-	button.setSize(Vector2f(90, 50));
-
+	this->texture1 = texture1;
+	this->texture2 = texture2;
+	this->text = text;
+	sprite.setTexture(texture1);
+	sprite.setPosition(position.x, position.y);
+	text.setPosition(position.x, position.y);
 }
+
+void Button::show(RenderWindow &window)
+{
+	window.draw(sprite);
+}
+
 
 
 Button::~Button(void)

@@ -3,15 +3,14 @@
 #include <SFML/Graphics.hpp>
 using namespace sf;
 
-class Button
-{
-protected:
-	RectangleShape button;
-	const Texture *bg1, *bg2;
-	bool sw;
-	
+class Button {
 public:
-	Button(const Texture * 	texture1,const Texture * 	texture2 );
+	Texture texture1;
+	Texture texture2;
+	Sprite sprite;
+	Text text;
+	Button(Texture texture1, Texture texture2, Text text, Vector2f position);
+	void show(RenderWindow &window);
 	~Button(void);
 };
 

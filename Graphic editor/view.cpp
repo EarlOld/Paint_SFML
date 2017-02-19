@@ -41,9 +41,13 @@ void view::draw(RenderWindow &window)
 			if (event.type == Event::Closed)
 				window.close();
 		}
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		if (IntRect(690, 35, 90, 30).contains(Mouse::getPosition(window))) { button.setFillColor(Color::Black); menuNum = 1; }
+		if (!IntRect(690, 35, 90, 30).contains(Mouse::getPosition(window))) { button.setFillColor(Color::White); menuNum = 1; }
+		if (Mouse::isButtonPressed(Mouse::Left))
+		{
+			if (menuNum == 1) scene.setFillColor(Color::Black); //если нажали первую кнопку, то выходим из меню 
 			
-				sf::Mouse::setPosition(sf::Vector2i(0, 0), window);
+		}
 
 		window.clear(Color(205,215,230,255));
 		window.draw(scene);

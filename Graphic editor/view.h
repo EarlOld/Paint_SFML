@@ -10,6 +10,7 @@ private:
 	RectangleShape scene;
 	RectangleShape button;
 	RectangleShape line;
+	int menuNum = 0;
 
 	void draw(RenderWindow &window);
 public:
