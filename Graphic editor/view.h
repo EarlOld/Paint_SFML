@@ -1,14 +1,21 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
+
+
+#include "Button.h"
+
+
 using namespace sf;
 
 class view
 {
 private:
+	
+	Button* button;
+	Button* button1;
+	Vector2f position;
 	RectangleShape scene;
-	RectangleShape button;
+	//RectangleShape button;
 	RectangleShape line;
 	int menuNum = 0;
 
