@@ -14,15 +14,11 @@ Button::Button(std::string text1, int x, int y, RenderWindow &window)
 	button.setOutlineThickness(2);
 	button.setPosition(690, 35);
 	button.setFillColor(Color::White);
+	button.setPosition(Vector2f(setposition.x,setposition.y)) ;
 
-	
-	
-	
-	
-	
 }
 
-void Button::show(RenderWindow &window)
+void Button::show(RenderWindow &window, int x = 0, int y = 0)
 {
 	window.draw(button);
 
@@ -30,7 +26,7 @@ void Button::show(RenderWindow &window)
 	font.loadFromFile("impact.ttf");
 	Text autor(text, font, 20);
 	autor.setFillColor(Color::Black);
-	autor.setPosition(Vector2f(setposition.x +22,setposition.y +3)) ;
+	autor.setPosition(Vector2f(setposition.x +25 + x,setposition.y +3+y)) ;
 	
 
 	window.draw(autor);

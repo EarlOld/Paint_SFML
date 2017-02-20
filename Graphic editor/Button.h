@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+#include <cmath>
 using namespace sf;
 
 class Button {
@@ -14,7 +15,7 @@ public:
 	Vector2f setposition;
 
 	Button(std::string text1, int x, int y,  RenderWindow &window);
-	void show(RenderWindow &window);
+	void show(RenderWindow &window, int x, int y);
 
 	~Button(void);
 };

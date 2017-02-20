@@ -13,14 +13,21 @@ private:
 	
 	Button* button;
 	Button* button1;
+	Button* button2;
+	Button* button3;
+	Button* button4;
+	Button* button5;
+	bool isMenu;
 	Vector2f position;
 	RectangleShape scene;
 	//RectangleShape button;
 	RectangleShape line;
-	int menuNum = 0;
+	int menuNum;
+
+	
+public:
 
 	void draw(RenderWindow &window);
-public:
 	view(RenderWindow& window);
 	~view(void);
 	
