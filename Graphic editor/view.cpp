@@ -257,25 +257,27 @@ void view::draw(RenderWindow &window)
 						
 						if(IntRect(20, 30, 650, 550).contains(Mouse::getPosition(window)))
 						{
-							
-
 							if (Mouse::isButtonPressed(Mouse::Left))
 							{
 								Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
 								start = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
-								
-							}
-
-
+													}
+							
 							if (Mouse::isButtonPressed(Mouse::Right))
 							{
+								
 								Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
 								finish = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
 								std::cout << "isStart "<< start.x << "\t" << start.y << std::endl;
 								std::cout << "isFinish "<< finish.x << "\t" << finish.y << std::endl;
 									flag = 0;
-									sf::Vertex line[2];
+								
 									int radius = sqrt((finish.y - start.y)*(finish.y - start.y) + (finish.x - start.x)*(finish.x - start.x));
+									if(start.x + radius < 670 )
+										if(start.x - radius > 20)
+											if(start.y + radius < 580)
+												if(start.y - radius > 30)
+									{
 									CircleShape circle;
 									circle.setRadius(radius);
 
@@ -287,6 +289,7 @@ void view::draw(RenderWindow &window)
 									window.draw(circle);
 		
 									window.display();
+									}
 								}
 						}
 							if (flag == 0)

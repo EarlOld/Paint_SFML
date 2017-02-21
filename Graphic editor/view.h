@@ -3,7 +3,7 @@
 
 
 #include "Button.h"
-
+#include "Text.h"
 
 using namespace sf;
 
