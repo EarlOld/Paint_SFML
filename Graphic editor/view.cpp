@@ -34,6 +34,10 @@ view::view(RenderWindow &window)
 	//line.setFillColor(Color::Transparent);
 	//button.setTextureRect(sf::IntRect(90, 30, 690, 35));
 
+	Font font;
+	font.loadFromFile("impact.ttf");
+
+
 	draw(window);
 	
 }
@@ -42,8 +46,20 @@ view::view(RenderWindow &window)
 view::~view(void)
 {
 }
+
+FocusController fc;
 void view::draw(RenderWindow &window)
 {
+	Font font;
+	font.loadFromFile("impact.ttf");
+	Text text;
+	text.setFont(font);
+	text.setPosition(200,200);
+	text.setString(L"My string");
+	int x = 0;
+	TextBox tb(text);
+	
+	fc.setFocusObject(&tb);
 	int flag = 0;
 	while (window.isOpen())
 	{
@@ -313,11 +329,66 @@ void view::draw(RenderWindow &window)
 			menuNum = 5; button4->button.setFillColor((Color(180,180,180,155))); std::cout << menuNum << std::endl;
 			if (Mouse::isButtonPressed(Mouse::Left))
 			{
-				if (menuNum == 1) {scene.setFillColor(Color::Black); isMenu = false;}
-					if (menuNum == 2) { isMenu = false;}
+				
+					if (menuNum == 5)
+					{
+						if (flag == 0)
+						{
+							isMenu = true; 
+							std::cout << "isMenu"<< isMenu << std::endl;
+							flag++;
+						}
+						Vector2f start, finish;
+					while(isMenu)
+					{
+						
+					Event event1;
+					while (window.pollEvent(event1))
+								{
+								std::cout << "event1 "<< std::endl;
+								FocusObject * fo = fc.getFocusObject();
+								if(fo != 0)
+									fo->event(event1);
+								}
+						if(IntRect(20, 30, 650, 550).contains(Mouse::getPosition(window)))
+						{
+							if (Mouse::isButtonPressed(Mouse::Left))
+							{
+								flag = 0;
+								Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
+								start = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
+								std::cout << "isStart "<< start.x << "\t" << start.y << std::endl;
+								//text.setPosition(start);
+								
+							
+								
+
+							
+							
+							//}
+							}
+							
+						}
+						
+						scene.setFillColor(Color::White);
+						window.draw(scene);
+						window.draw(tb);
+						
+						window.display();
+						if (flag == 0)
+							{	  
+							if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) 
+							if (Mouse::isButtonPressed(Mouse::Left)) {isMenu = false; std::cout << "isMenu"<< isMenu << std::endl;}
+							}
+					}
+							
+						}
+					}
+
+					
 			}
 
-		}
+		
 		else if (!IntRect(position.x, position.y + 45+ 45+ 45+ 45, 90, 30).contains(Mouse::getPosition(window))) {menuNum; button4->button.setFillColor(Color::White); std::cout << menuNum << std::endl;  menuNum = 0;}
 		
 

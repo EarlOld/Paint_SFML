@@ -20,7 +20,8 @@ public:
     {
         m_newText = m_text.getString() ;
         updateRect() ;
-        m_box.setFillColor( sf::Color::Blue ) ;
+        m_box.setFillColor( sf::Color::Black ) ;
+		m_text.setFillColor(Color::Black);
     }
     virtual void draw ( sf::RenderTarget & render , sf::RenderStates states ) const
     {
@@ -75,6 +76,7 @@ private:
         m_box.setPosition ( rect.left-5 , rect.top-5 ) ;
         m_box.setSize( sf::Vector2f(rect.width+10 , rect.height+10) ) ;
     }
+	
     mutable sf::RectangleShape m_box ;
     mutable sf::Text m_text ;
     mutable sf::String m_newText ;
