@@ -20,13 +20,20 @@ public:
     {
         m_newText = m_text.getString() ;
         updateRect() ;
-        m_box.setFillColor( sf::Color::Black ) ;
+        m_box.setFillColor( sf::Color::White ) ;
 		m_text.setFillColor(Color::Black);
     }
+	void SetPosition (Vector2f position)
+	{
+		m_text.setPosition(position.x, position.y);
+		m_box.setPosition(position.x, position.y);
+	
+	}	
     virtual void draw ( sf::RenderTarget & render , sf::RenderStates states ) const
     {
         if ( m_textChanged )
         {
+			 m_box.setFillColor( sf::Color::White ) ;
             const_cast<TextBox*>(this)->setText ( m_newText ) ;
  
             m_textChanged = false ;
@@ -36,17 +43,18 @@ public:
     }
     virtual void setFocus ()
     {
-        m_box.setFillColor( sf::Color::Transparent ) ;
+        m_box.setFillColor( sf::Color::White ) ;
     }
     virtual void deleteFocus ()
     {
-        m_box.setFillColor( sf::Color::Black ) ;
+        m_box.setFillColor( sf::Color::White ) ;
     }
     virtual void event ( const sf::Event & event )
     {
         if (event.type == sf::Event::TextEntered)
         {
             //Обработка ввода
+			 
             m_textChanged = true ;
             switch ( event.text.unicode )
             {
@@ -54,6 +62,7 @@ public:
                 m_newText += L'\n' ;
                 break ;
             case 0x8://Backspace
+				
                 if ( !m_newText.isEmpty() )
                     m_newText.erase(m_newText.getSize()-1) ;
                 break ;
@@ -72,9 +81,12 @@ public:
 private:
     void updateRect ()
     {
+		 m_box.setFillColor( sf::Color::White ) ;
+		
         sf::FloatRect rect = m_text.getGlobalBounds() ;
-        m_box.setPosition ( rect.left-5 , rect.top-5 ) ;
-        m_box.setSize( sf::Vector2f(rect.width+10 , rect.height+10) ) ;
+        m_box.setPosition ( rect.left-1, rect.top-5 ) ;
+        m_box.setSize( sf::Vector2f(rect.width+27, rect.height+10) ) ;
+		if(m_box.getPosition().x + rect.width >=643)  m_newText += L'\n' ;
     }
 	
     mutable sf::RectangleShape m_box ;

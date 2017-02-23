@@ -55,7 +55,7 @@ void view::draw(RenderWindow &window)
 	Text text;
 	text.setFont(font);
 	text.setPosition(200,200);
-	text.setString(L"My string");
+	text.setString(L" ");
 	int x = 0;
 	TextBox tb(text);
 	
@@ -99,7 +99,7 @@ void view::draw(RenderWindow &window)
 									Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
 									Vector2f pos = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
 									RectangleShape tmp;
-									tmp.setSize(Vector2f(1, 1));
+									tmp.setSize(Vector2f(2, 2));
 									tmp.setPosition(pos.x, pos.y);
 									tmp.setFillColor(Color::Black);
 									window.draw(tmp);
@@ -343,8 +343,17 @@ void view::draw(RenderWindow &window)
 					{
 						
 					Event event1;
+
+				
+								//Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
+								//start = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
+								//std::cout << "isStart "<< start.x << "\t" << start.y << std::endl;
+								//text.setPosition(start.x, start.y);
+								
+								      
 					while (window.pollEvent(event1))
 								{
+								flag = 0;
 								std::cout << "event1 "<< std::endl;
 								FocusObject * fo = fc.getFocusObject();
 								if(fo != 0)
@@ -354,13 +363,10 @@ void view::draw(RenderWindow &window)
 						{
 							if (Mouse::isButtonPressed(Mouse::Left))
 							{
-								flag = 0;
 								Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
 								start = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
 								std::cout << "isStart "<< start.x << "\t" << start.y << std::endl;
-								//text.setPosition(start);
-								
-							
+								tb.SetPosition(start);
 								
 
 							
@@ -370,8 +376,8 @@ void view::draw(RenderWindow &window)
 							
 						}
 						
-						scene.setFillColor(Color::White);
-						window.draw(scene);
+						//scene.setFillColor(Color::White);
+						//window.draw(scene);
 						window.draw(tb);
 						
 						window.display();
