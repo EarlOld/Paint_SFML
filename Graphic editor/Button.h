@@ -20,3 +20,17 @@ public:
 	~Button(void);
 };
 
+class Button_color {
+public:
+	
+	RectangleShape button;
+
+	std::string text;
+	Vector2f setposition;
+
+	Button_color(std::string text1, int x, int y, Color color,   RenderWindow &window);
+	void show(RenderWindow &window, int x, int y);
+
+	~Button_color(void);
+};
+

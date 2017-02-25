@@ -23,6 +23,13 @@ public:
         m_box.setFillColor( sf::Color::White ) ;
 		m_text.setFillColor(Color::Black);
     }
+
+	void SetColor (Color color)
+	{
+		m_text.setFillColor(color);
+	
+	}	
+
 	void SetPosition (Vector2f position)
 	{
 		m_text.setPosition(position.x, position.y);
@@ -38,7 +45,7 @@ public:
  
             m_textChanged = false ;
         }
-        render.draw ( m_box , states ) ;
+        //render.draw ( m_box , states ) ;
         render.draw ( m_text , states ) ;
     }
     virtual void setFocus ()

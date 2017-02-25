@@ -17,6 +17,13 @@ private:
 	Button* button3;
 	Button* button4;
 	Button* button5;
+	Button* button6;
+	Button_color* button_color;
+	Button_color* button_color1;
+	Button_color* button_color6;
+	Button_color* button_color3;
+	Button_color* button_color4;
+	Button_color* button_color5;
 	bool isMenu;
 	Vector2f position;
 	RectangleShape scene;
