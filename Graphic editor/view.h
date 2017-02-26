@@ -10,7 +10,7 @@ using namespace sf;
 class view
 {
 private:
-	
+	RenderTexture *rtexture;
 	Button* button;
 	Button* button1;
 	Button* button2;

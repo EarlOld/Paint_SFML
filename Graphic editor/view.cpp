@@ -10,6 +10,9 @@ view::view(RenderWindow &window)
 	scene.setOutlineColor(Color(150,150,150,155));
 	scene.setOutlineThickness(2);
 	
+	rtexture = new RenderTexture;
+	rtexture->create(670, 580);
+	rtexture->clear(Color::White);
 
 	scene.setPosition(20, 30);
 	scene.setFillColor(Color::White);
@@ -32,12 +35,12 @@ view::view(RenderWindow &window)
 	Button_top6 = new Button_top("CLS", 615, position_top.y, window);
 	
 
-	button_color = new Button_color("",position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45+ 45,Color::Green, window);
-	button_color1 = new Button_color("",position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45+ 45,Color::Red, window);
-	button_color6 = new Button_color("",position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45+ 45,Color::Blue, window);
-	button_color3 = new Button_color("",position.x, position.y  + 45 + 45 + 45 + 45 + 45+ 45,Color::Cyan, window);
-	button_color4 = new Button_color("",position.x + 30, position.y  + 45 + 45 + 45 + 45 + 45+ 45,Color::Magenta, window);
-	button_color5 = new Button_color("",position.x + 30 + 30, position.y  + 45 + 45 + 45 + 45 + 45+ 45,Color::Yellow, window);
+	button_color = new Button_color("",position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45+ 45,Color::Green, window);
+	button_color1 = new Button_color("",position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45+ 45,Color::Red, window);
+	button_color6 = new Button_color("",position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45+ 45,Color::Blue, window);
+	button_color3 = new Button_color("",position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45+ 45,Color::Cyan, window);
+	button_color4 = new Button_color("",position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45+ 45,Color::Magenta, window);
+	button_color5 = new Button_color("",position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45+ 45,Color::Yellow, window);
 
 	Font font;
 	font.loadFromFile("impact.ttf");
@@ -51,7 +54,7 @@ view::~view(void)
 FocusController fc;
 void view::draw(RenderWindow &window)
 {
-	RenderWindow window1(VideoMode(800, 600), "Pint SFML", Style::Titlebar | Style::Close);
+	
 	RenderTexture texture;
 	texture.create(100, 100);
 	texture.clear(Color::Black);
@@ -106,6 +109,65 @@ void view::draw(RenderWindow &window)
 				if (event.type == Event::Closed)
 					window.close();
 			}
+			//-----------------------------------Open------------------------------------------------------------------
+			if (IntRect(position_top.x, position_top.y, 50, 20).contains(Mouse::getPosition(window)))
+			{
+
+				Button_top2->button.setFillColor((Color(180, 180, 180, 155)));
+				std::cout << menuNum << std::endl;
+				menuNum = 10;
+
+				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 10) {
+
+					Image image;
+					image.loadFromFile("image.png");
+				
+					Texture texture;
+					texture.loadFromImage(image);
+					
+					
+					scene.setTexture(&texture);
+					rtexture->draw(scene);
+					window.draw(scene);
+					//window.display();
+
+
+				}
+
+
+
+
+			}
+
+			else if (!IntRect(position_top.x, position_top.y, 50, 20).contains(Mouse::getPosition(window))) { menuNum = 0; Button_top2->button.setFillColor(Color::White); std::cout << menuNum << std::endl; }
+	//-----------------------------------Save------------------------------------------------------------------
+			if (IntRect(position_top.x + 60, position_top.y,50, 20).contains(Mouse::getPosition(window)))
+			{
+
+				Button_top2->button.setFillColor((Color(180, 180, 180, 155)));
+				std::cout << menuNum << std::endl;
+				menuNum = 10;
+
+				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 10) {
+
+					Image pic = rtexture->getTexture().copyToImage();
+					pic.flipVertically();
+					Texture texture;
+					texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+					
+					Image pic1 = texture.copyToImage();
+					
+					
+					pic1.saveToFile("image.png");
+					}
+				
+
+
+
+			}
+
+			else if (!IntRect(position_top.x + 60, position_top.y, 50, 20).contains(Mouse::getPosition(window))) { menuNum = 0; Button_top2->button.setFillColor(Color::White); std::cout << menuNum << std::endl; }
+
 	//-------------------------------------------------Point-----------------------------------------------------	
 
 			if (IntRect(position.x, position.y, 90, 30).contains(Mouse::getPosition(window)))
@@ -175,11 +237,7 @@ void view::draw(RenderWindow &window)
 
 				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 6) 
 				{
-					//texture = (RenderTexture*)scene.getTexture();
-				
-					//texture->getTexture()->copyToImage()->saveToFile("test.png");
-					texture.getTexture().copyToImage().saveToFile("test.png");
-
+					drawText(window, flag);
 				}
 				
 			}
@@ -192,6 +250,8 @@ void view::draw(RenderWindow &window)
 			button3->show(window, 0, 0);
 			button4->show(window, 0, 0);
 			button5->show(window, 0, 0);
+			Button_top2->show(window, 0, 0);
+			//window.draw(scene);
 			window.display();
 
 		}
@@ -213,22 +273,22 @@ void view::drawLine(RenderWindow & window, int flag)
 	while (isMenu)
 	{
 
-		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 1;
 
-		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left)) color = 2;
 
-		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 3;
 
-		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 4;
 
-		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left)) color = 5;
 
-		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 6;
 
 		if (IntRect(20, 30, 650, 550).contains(Mouse::getPosition(window)))
@@ -263,6 +323,9 @@ void view::drawLine(RenderWindow & window, int flag)
 				if (color == 4) { line[0].color = sf::Color::Cyan; line[1].color = sf::Color::Cyan; }
 				if (color == 5) { line[0].color = sf::Color::Magenta; line[1].color = sf::Color::Magenta; }
 				if (color == 6) { line[0].color = sf::Color::Yellow; line[1].color = sf::Color::Yellow; }
+				
+				
+				rtexture->draw(line, 2, sf::Lines);
 				window.draw(line, 2, sf::Lines);
 
 				window.display();
@@ -294,23 +357,24 @@ void view::drawPoint(RenderWindow & window, int flag)
 	while (isMenu) 
 	{
 
-		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 1;
 
-		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left)) color = 2;
 
-		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 3;
 
-		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 4;
 
-		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left)) color = 5;
 
-		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 6;
+
 
 		if (IntRect(20, 30, 650, 550).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))
@@ -330,6 +394,7 @@ void view::drawPoint(RenderWindow & window, int flag)
 				if (color == 5) tmp.setFillColor(Color::Magenta);
 				if (color == 6) tmp.setFillColor(Color::Yellow);
 
+				rtexture->draw(tmp);
 				window.draw(tmp);
 
 				window.display();
@@ -363,23 +428,24 @@ void view::drawRectangle(RenderWindow & window, int flag)
 
 	while (isMenu) 
 	{
-		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 1;
 
-		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left)) color = 2;
 
-		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 3;
 
-		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 4;
 
-		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left)) color = 5;
 
-		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+		if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 			if (Mouse::isButtonPressed(Mouse::Left))  color = 6;
+
 
 		if (IntRect(20, 30, 650, 550).contains(Mouse::getPosition(window)))
 		{
@@ -414,6 +480,9 @@ void view::drawRectangle(RenderWindow & window, int flag)
 				rectangle.setFillColor(Color::Transparent);
 				rectangle.setOutlineThickness(2);
 				rectangle.setPosition(start);
+
+
+				rtexture->draw(rectangle);
 				window.draw(rectangle);
 
 				window.display();
@@ -446,23 +515,24 @@ void view::drawCircle(RenderWindow & window, int flag)
 
 		while (isMenu)
 		{
-			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left))  color = 1;
 
-			if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left)) color = 2;
 
-			if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left))  color = 3;
 
-			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left))  color = 4;
 
-			if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left)) color = 5;
 
-			if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left))  color = 6;
+
 
 			if (IntRect(20, 30, 650, 550).contains(Mouse::getPosition(window)))
 			{
@@ -502,6 +572,8 @@ void view::drawCircle(RenderWindow & window, int flag)
 									circle.setPosition(Vector2f(start.x - radius, start.y - radius));
 									circle.setFillColor(Color::Transparent);
 									std::cout << "Radius " << sqrt((finish.y - start.y)*(finish.y - start.y) + (finish.x - start.x)*(finish.x - start.x)) << std::endl;
+
+									rtexture->draw(circle);
 									window.draw(circle);
 
 									window.display();
@@ -548,31 +620,25 @@ void view::drawText(RenderWindow & window, int flag)
 		while (isMenu)
 		{
 
-			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left))  color = 1;
 
-			if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left)) color = 2;
 
-			if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left))  color = 3;
 
-			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left))  color = 4;
 
-			if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left)) color = 5;
 
-			if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
+			if (IntRect(position.x + 30 + 30, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45, 30, 30).contains(Mouse::getPosition(window)))
 				if (Mouse::isButtonPressed(Mouse::Left))  color = 6;
 
 			Event event1;
-
-
-			//Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
-			//start = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
-			//std::cout << "isStart "<< start.x << "\t" << start.y << std::endl;
-			//text.setPosition(start.x, start.y);
 
 			if (color == 0) tb.SetColor(Color::Black);
 			if (color == 1) tb.SetColor(Color::Green);
@@ -600,16 +666,11 @@ void view::drawText(RenderWindow & window, int flag)
 					std::cout << "isStart " << start.x << "\t" << start.y << std::endl;
 					tb.SetPosition(start);
 
-
-
-
-					//}
 				}
 
 			}
 
-			//scene.setFillColor(Color::White);
-			//window.draw(scene);
+			rtexture->draw(tb);
 			window.draw(tb);
 
 			window.display();
