@@ -26,13 +26,15 @@ view::view(RenderWindow &window)
 	button3 = new Button("Circle", position.x, position.y + 45 + 45 + 45 , window);
 	button4 = new Button("Text", position.x, position.y + 45 + 45 + 45 + 45 , window);
 	button5 = new Button("Erase", position.x, position.y + 45 + 45 + 45 + 45 + 45, window);
+	button6 = new Button("Fill", position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45, window);
+	button7 = new Button("Clean", position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, window);
 
 	Button_top1 = new Button_top("Open", position_top.x , position_top.y, window);
 	Button_top2 = new Button_top("Save", position_top.x  + 60, position_top.y, window);
 	Button_top3 = new Button_top("Copy", position_top.x + 60 + 60, position_top.y, window);
 	Button_top4 = new Button_top("Extr", position_top.x  + 60 + 60 + 60, position_top.y, window);
 	Button_top5 = new Button_top("Past", position_top.x  + 60 + 60 + 60 + 60, position_top.y, window);
-	Button_top6 = new Button_top("CLS", 615, position_top.y, window);
+	
 	
 
 	button_color = new Button_color("",position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45 + 45+ 45,Color::Green, window);
@@ -82,11 +84,16 @@ void view::draw(RenderWindow &window)
 		Button_top3->show(window, 0, 0);
 		Button_top4->show(window, 0, 0);
 		Button_top5->show(window, 0, 0);
-		Button_top6->show(window, 0, 0);
+	
 
 		button3->show(window, 0, 0);
 		button4->show(window, 0, 0);
 		button5->show(window, 0, 0);
+		button6->show(window, 0, 0);
+		button7->show(window, 0, 0); 
+		
+
+
 		window.draw(scene);
 
 		window.display();
@@ -243,7 +250,21 @@ void view::draw(RenderWindow &window)
 			}
 
 			else if (!IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) { menuNum; button5->setColor(Color::White); std::cout << menuNum << std::endl;  menuNum = 0; }
+			//----------------------------------------------Clean------------------------------
+			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
+			{
+				menuNum = 4;
+				button3->setColor((Color(180, 180, 180, 155)));
+				std::cout << menuNum << std::endl;
 
+				if (Mouse::isButtonPressed(Mouse::Left)) 
+					if (menuNum == 4) 
+					{
+						isMenu = false; GlobalMeny = false;
+					}
+					
+			}
+			else if (!IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) { menuNum; button3->setColor(Color::White); std::cout << menuNum << std::endl;  menuNum = 0; }
 			button->show(window, 0, 0);
 			button1->show(window, 0, 0);
 			button2->show(window, -20, 0);
@@ -676,7 +697,7 @@ void view::drawText(RenderWindow & window, int flag)
 			window.display();
 			if (flag == 0)
 			{
-				if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
+				if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
 					if (Mouse::isButtonPressed(Mouse::Left))
 					{ 
 						isMenu = false; 

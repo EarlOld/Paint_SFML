@@ -18,6 +18,7 @@ private:
 	Button* button4;
 	Button* button5;
 	Button* button6;
+	Button* button7;
 
 	Button_top* Button_top1;
 	Button_top* Button_top2;
