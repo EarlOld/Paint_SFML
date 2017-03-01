@@ -33,7 +33,7 @@ private:
 	Button_color* button_color3;
 	Button_color* button_color4;
 	Button_color* button_color5;
-	bool isMenu;
+	bool isMenu, GlobalMenu;
 	Vector2f position;
 	Vector2f position_top;
 	RectangleShape scene;
@@ -51,6 +51,7 @@ public:
 	void drawCircle(RenderWindow & window, int flag);
 	void drawText(RenderWindow & window, int flag);
 	void drawErace(RenderWindow & window, int flag);
+	void root(RenderWindow &window);
 	view(RenderWindow& window);
 	~view(void);
 	

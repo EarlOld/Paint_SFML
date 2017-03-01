@@ -30,6 +30,12 @@ public:
 	
 	}	
 
+	String GetText()
+	{
+		return m_text.getString();
+
+	}
+
 	void SetPosition (Vector2f position)
 	{
 		m_text.setPosition(position.x, position.y);
@@ -94,6 +100,7 @@ private:
         m_box.setPosition ( rect.left-1, rect.top-5 ) ;
         m_box.setSize( sf::Vector2f(rect.width+27, rect.height+10) ) ;
 		if(m_box.getPosition().x + rect.width >=643)  m_newText += L'\n' ;
+		
     }
 	
     mutable sf::RectangleShape m_box ;

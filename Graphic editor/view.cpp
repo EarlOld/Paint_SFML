@@ -5,7 +5,8 @@ view::view(RenderWindow &window)
 {
 
 	menuNum = 40;
-	isMenu = 1;
+	isMenu = true;
+	GlobalMenu = false;
 	scene.setSize(Vector2f(650, 550));
 	scene.setOutlineColor(Color(150,150,150,155));
 	scene.setOutlineThickness(2);
@@ -52,17 +53,14 @@ view::view(RenderWindow &window)
 view::~view(void)
 {
 }
-
 FocusController fc;
+
 void view::draw(RenderWindow &window)
 {
 	
-	RenderTexture texture;
-	texture.create(100, 100);
-	texture.clear(Color::Black);
 	
 	int flag = 0, color = 0;
-	bool GlobalMeny = false;
+	
 	while (window.isOpen())
 	{
 
@@ -86,11 +84,11 @@ void view::draw(RenderWindow &window)
 		Button_top5->show(window, 0, 0);
 	
 
-		button3->show(window, 0, 0);
-		button4->show(window, 0, 0);
-		button5->show(window, 0, 0);
-		button6->show(window, 0, 0);
-		button7->show(window, 0, 0); 
+		button3->show(window, -5, 0);
+		button4->show(window, -3, 0);
+		button5->show(window, -5, 0);
+		button6->show(window, 3, 0);
+		button7->show(window, -5, 0); 
 		
 
 
@@ -105,8 +103,8 @@ void view::draw(RenderWindow &window)
 			if (event.type == Event::Closed)
 				window.close();
 		}
-		if (Mouse::isButtonPressed(Mouse::Left)) GlobalMeny = true;
-		while (GlobalMeny)
+		if (Mouse::isButtonPressed(Mouse::Left)) GlobalMenu = true;
+		while (GlobalMenu)
 		{
 			
 				Event event;
@@ -126,8 +124,44 @@ void view::draw(RenderWindow &window)
 
 				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 10) {
 
+
+					Font font;
+					font.loadFromFile("arial.ttf");
+					Text text1("Input name: ", font, 14);
+					text1.setPosition(30, 583);
+					text1.setFillColor(Color::Black);
+					std::string name;
+
+					Text text(" ", font, 12);
+
+					text.setPosition(105, 583);
+
+					int x = 0;
+					TextBox tb(text);
+
+					fc.setFocusObject(&tb);
+
+					while (!Keyboard::isKeyPressed(Keyboard::Key::Return))
+					{
+
+						Event event1;
+
+						while (window.pollEvent(event1))
+						{
+							flag = 0;
+							std::cout << "event1 " << std::endl;
+							FocusObject * fo = fc.getFocusObject();
+							if (fo != 0)
+								fo->event(event1);
+						}
+						name = tb.GetText();
+						window.draw(tb);
+						window.draw(text1);
+						window.display();
+					}
+
 					Image image;
-					image.loadFromFile("image.png");
+					image.loadFromFile(name);
 				
 					Texture texture;
 					texture.loadFromImage(image);
@@ -135,6 +169,7 @@ void view::draw(RenderWindow &window)
 					
 					scene.setTexture(&texture);
 					rtexture->draw(scene);
+					//isMenu = false; GlobalMenu = false;
 					window.draw(scene);
 					//window.display();
 
@@ -157,6 +192,45 @@ void view::draw(RenderWindow &window)
 
 				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 10) {
 
+					menuNum = 1;
+
+
+					Font font;
+					font.loadFromFile("arial.ttf");
+					Text text1("Input name: ", font, 14);
+					text1.setPosition(30, 583);
+					text1.setFillColor(Color::Black);
+					std::string name;
+					
+					Text text(" ", font, 12);
+					
+					text.setPosition(105, 583);
+					
+					int x = 0;
+					TextBox tb(text);
+
+					fc.setFocusObject(&tb);
+
+					while (!Keyboard::isKeyPressed(Keyboard::Key::Return))
+					{
+
+						Event event1;
+
+						while (window.pollEvent(event1))
+						{
+							flag = 0;
+							std::cout << "event1 " << std::endl;
+							FocusObject * fo = fc.getFocusObject();
+							if (fo != 0)
+								fo->event(event1);
+						}
+						name = tb.GetText();
+						window.draw(tb);
+						window.draw(text1);
+						window.display();
+					}
+					
+
 					Image pic = rtexture->getTexture().copyToImage();
 					pic.flipVertically();
 					Texture texture;
@@ -165,7 +239,7 @@ void view::draw(RenderWindow &window)
 					Image pic1 = texture.copyToImage();
 					
 					
-					pic1.saveToFile("image.png");
+					pic1.saveToFile(name);
 					}
 				
 
@@ -235,7 +309,7 @@ void view::draw(RenderWindow &window)
 				}
 
 			else if (!IntRect(position.x, position.y + 45+ +45+45+ 45, 90, 30).contains(Mouse::getPosition(window))) {menuNum; button4->setColor(Color::White); std::cout << menuNum << std::endl;  menuNum = 0;}
-		
+	//-------------------------------------------------Erase---------------------------------------------------------------------
 			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
 			{
 				menuNum = 6;
@@ -244,33 +318,36 @@ void view::draw(RenderWindow &window)
 
 				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 6) 
 				{
-					drawText(window, flag);
+					drawErace(window, flag);
 				}
 				
 			}
 
 			else if (!IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) { menuNum; button5->setColor(Color::White); std::cout << menuNum << std::endl;  menuNum = 0; }
-			//----------------------------------------------Clean------------------------------
+	//---------------------------------------------------------Clean------------------------------------------------------------------------
 			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
 			{
-				menuNum = 4;
-				button3->setColor((Color(180, 180, 180, 155)));
+				menuNum = 14;
+				button7->setColor((Color(180, 180, 180, 155)));
 				std::cout << menuNum << std::endl;
 
 				if (Mouse::isButtonPressed(Mouse::Left)) 
-					if (menuNum == 4) 
+					if (menuNum == 14) 
 					{
-						isMenu = false; GlobalMeny = false;
+						isMenu = false; GlobalMenu = false;
 					}
 					
 			}
-			else if (!IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) { menuNum; button3->setColor(Color::White); std::cout << menuNum << std::endl;  menuNum = 0; }
+			else if (!IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) { menuNum; button7->setColor(Color::White); std::cout << menuNum << std::endl;  menuNum = 0; }
+			
 			button->show(window, 0, 0);
 			button1->show(window, 0, 0);
 			button2->show(window, -20, 0);
-			button3->show(window, 0, 0);
-			button4->show(window, 0, 0);
-			button5->show(window, 0, 0);
+			button3->show(window, -5, 0);
+			button4->show(window, -3, 0);
+			button5->show(window, -5, 0);
+			button6->show(window, 3, 0);
+			button7->show(window, -5, 0);
 			Button_top2->show(window, 0, 0);
 			//window.draw(scene);
 			window.display();
@@ -352,15 +429,7 @@ void view::drawLine(RenderWindow & window, int flag)
 				window.display();
 			}
 		}
-		if (flag == 0)
-		{
-			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
-				if (Mouse::isButtonPressed(Mouse::Left)) 
-				{
-					isMenu = false; 
-					std::cout << "isMenu" << isMenu << std::endl; 
-				}
-		}
+		if (flag == 0)	root(window);
 	}
 
 }
@@ -423,14 +492,8 @@ void view::drawPoint(RenderWindow & window, int flag)
 
 
 			}
-		if (flag == 0)
-		{
-			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
-				if (Mouse::isButtonPressed(Mouse::Left)) 
-				{
-					isMenu = false; std::cout << "isMenu" << isMenu << std::endl; 
-				}
-		}
+		if (flag == 0)	root(window);
+		
 	}
 }
 
@@ -509,15 +572,7 @@ void view::drawRectangle(RenderWindow & window, int flag)
 				window.display();
 			}
 		}
-		if (flag == 0)
-		{
-			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
-				if (Mouse::isButtonPressed(Mouse::Left)) 
-				{ 
-					isMenu = false;
-					std::cout << "isMenu" << isMenu << std::endl; 
-				}
-		}
+		if (flag == 0)	root(window);
 	}
 
 }
@@ -601,15 +656,7 @@ void view::drawCircle(RenderWindow & window, int flag)
 								}
 				}
 			}
-			if (flag == 0)
-			{
-				if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
-					if (Mouse::isButtonPressed(Mouse::Left))
-					{
-						isMenu = false;
-						std::cout << "isMenu" << isMenu << std::endl;
-					}
-			}
+			if (flag == 0)	root(window);
 		}
 	
 	
@@ -695,18 +742,77 @@ void view::drawText(RenderWindow & window, int flag)
 			window.draw(tb);
 
 			window.display();
-			if (flag == 0)
-			{
-				if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
-					if (Mouse::isButtonPressed(Mouse::Left))
-					{ 
-						isMenu = false; 
-						std::cout << "isMenu" << isMenu << std::endl; 
-					}
-			}
+			if (flag == 0)	root(window);
 		}
 }
 
 void view::drawErace(RenderWindow & window, int flag)
 {
+	if (flag == 0)
+	{
+		isMenu = true;
+		std::cout << "isMenu" << isMenu << std::endl;
+		flag++;
+	}
+	
+	int color = 0;
+
+	while (isMenu)
+	{
+		
+
+		Vector2f start;
+		if (IntRect(20, 30, 650, 550).contains(Mouse::getPosition(window)))
+		{
+				if (Mouse::isButtonPressed(Mouse::Left))
+				{
+					Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
+					start = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
+					std::cout << "isStart " << start.x << "\t" << start.y << std::endl;
+					
+					flag = 0;
+
+					int radius = 20;
+					if (start.x + radius < 670)
+						if (start.x - radius > 20)
+							if (start.y + radius < 580)
+								if (start.y - radius > 30)
+								{
+									CircleShape circle;
+									circle.setRadius(radius);
+									circle.setOutlineThickness(2);
+									circle.setOutlineColor(Color::Transparent);
+									circle.setPosition(Vector2f(start.x - radius, start.y - radius));
+									circle.setFillColor(Color::White);
+
+									rtexture->draw(circle);
+									window.draw(circle);
+
+									window.display();
+								}
+							
+			}
+		}
+		if (flag == 0)	root(window);
+	}
+}
+
+void view::root(RenderWindow &window)
+{
+
+	if (IntRect(position.x, position.y, 90, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position.x, position.y +45, 90, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position.x, position.y + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position.x, position.y + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position.x, position.y + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+
+	if (IntRect(position_top.x, position_top.y, 50, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position_top.x +60, position_top.y, 50, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position_top.x + 60 + 60, position_top.y, 50, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position_top.x + 60 + 60 + 60, position_top.y, 50, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	if (IntRect(position_top.x + 60 + 60 + 60 + 60, position_top.y, 50, 30).contains(Mouse::getPosition(window))) if (Mouse::isButtonPressed(Mouse::Left))  isMenu = false;
+	
 }
