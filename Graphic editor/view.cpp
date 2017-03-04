@@ -83,7 +83,6 @@ void view::draw(RenderWindow &window)
 		Button_top4->show(window, 0, 0);
 		Button_top5->show(window, 0, 0);
 	
-
 		button3->show(window, -5, 0);
 		button4->show(window, -3, 0);
 		button5->show(window, -5, 0);
@@ -169,16 +168,16 @@ void view::draw(RenderWindow &window)
 					
 					scene.setTexture(&texture);
 					rtexture->draw(scene);
-					//isMenu = false; GlobalMenu = false;
-					window.draw(scene);
-					//window.display();
-
-
+					Image pic = rtexture->getTexture().copyToImage();
+					pic.flipVertically();
+					Texture texture1;
+					texture1.loadFromImage(pic, IntRect(20, 30, 650, 550));
+					Sprite sprite; sprite.setTexture(texture1);
+					sprite.setPosition(Vector2f(20, 30));
+					window.draw(sprite);
+	
+					window.display();
 				}
-
-
-
-
 			}
 
 			else if (!IntRect(position_top.x, position_top.y, 50, 20).contains(Mouse::getPosition(window))) { menuNum = 0; Button_top2->button.setFillColor(Color::White); std::cout << menuNum << std::endl; }
@@ -349,11 +348,7 @@ void view::draw(RenderWindow &window)
 			button6->show(window, 3, 0);
 			button7->show(window, -5, 0);
 			Button_top2->show(window, 0, 0);
-			//window.draw(scene);
-			window.display();
-
-		}
-
+			}
 	
 	}
 }
@@ -399,8 +394,6 @@ void view::drawLine(RenderWindow & window, int flag)
 				start = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
 
 			}
-
-
 			if (Mouse::isButtonPressed(Mouse::Right))
 			{
 				Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
@@ -425,7 +418,13 @@ void view::drawLine(RenderWindow & window, int flag)
 				
 				rtexture->draw(line, 2, sf::Lines);
 				window.draw(line, 2, sf::Lines);
-
+				Image pic = rtexture->getTexture().copyToImage();
+				pic.flipVertically();
+				Texture texture;
+				texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+				Sprite sprite; sprite.setTexture(texture);
+				sprite.setPosition(Vector2f(20, 30));
+				window.draw(sprite);
 				window.display();
 			}
 		}
@@ -485,8 +484,14 @@ void view::drawPoint(RenderWindow & window, int flag)
 				if (color == 6) tmp.setFillColor(Color::Yellow);
 
 				rtexture->draw(tmp);
-				window.draw(tmp);
-
+				//window.draw(tmp);
+				Image pic = rtexture->getTexture().copyToImage();
+				pic.flipVertically();
+				Texture texture;
+				texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+				Sprite sprite; sprite.setTexture(texture);
+				sprite.setPosition(Vector2f(20, 30));
+				window.draw(sprite);
 				window.display();
 
 
@@ -650,7 +655,13 @@ void view::drawCircle(RenderWindow & window, int flag)
 									std::cout << "Radius " << sqrt((finish.y - start.y)*(finish.y - start.y) + (finish.x - start.x)*(finish.x - start.x)) << std::endl;
 
 									rtexture->draw(circle);
-									window.draw(circle);
+									Image pic = rtexture->getTexture().copyToImage();
+									pic.flipVertically();
+									Texture texture;
+									texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+									Sprite sprite; sprite.setTexture(texture);
+									sprite.setPosition(Vector2f(20, 30));
+									window.draw(sprite);
 
 									window.display();
 								}
@@ -739,7 +750,13 @@ void view::drawText(RenderWindow & window, int flag)
 			}
 
 			rtexture->draw(tb);
-			window.draw(tb);
+			Image pic = rtexture->getTexture().copyToImage();
+			pic.flipVertically();
+			Texture texture;
+			texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+			Sprite sprite; sprite.setTexture(texture);
+			sprite.setPosition(Vector2f(20, 30));
+			window.draw(sprite);
 
 			window.display();
 			if (flag == 0)	root(window);
@@ -786,7 +803,13 @@ void view::drawErace(RenderWindow & window, int flag)
 									circle.setFillColor(Color::White);
 
 									rtexture->draw(circle);
-									window.draw(circle);
+									Image pic = rtexture->getTexture().copyToImage();
+									pic.flipVertically();
+									Texture texture;
+									texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+									Sprite sprite; sprite.setTexture(texture);
+									sprite.setPosition(Vector2f(20, 30));
+									window.draw(sprite);
 
 									window.display();
 								}
