@@ -20,6 +20,10 @@ private:
 	Button* button6;
 	Button* button7;
 
+	Image pic;
+	Texture texture;
+	Sprite sprite;
+
 	Button_top* Button_top1;
 	Button_top* Button_top2;
 	Button_top* Button_top3;
@@ -37,7 +41,7 @@ private:
 	Vector2f position;
 	Vector2f position_top;
 	RectangleShape scene;
-	//RectangleShape button;
+
 	RectangleShape line;
 	int menuNum;
 
@@ -45,7 +49,10 @@ private:
 public:
 
 	void draw(RenderWindow &window);
+	void open(RenderWindow &window, int flag);
+	void save(RenderWindow &window, int flag);
 	void drawLine(RenderWindow &window, int flag);
+	void setColor(int &color, RenderWindow &window);
 	void drawPoint(RenderWindow & window, int flag);
 	void drawRectangle(RenderWindow & window, int flag);
 	void drawCircle(RenderWindow & window, int flag);
