@@ -78,12 +78,12 @@ view::~view(void)
 		delete button_color5;
 }
 FocusController fc;
-
+FocusController ff;
 void view::draw(RenderWindow &window)
 {
 	
 	
-	int flag = 0, color = 0;
+	int flag = 0, color = 0, sc = 0;
 	
 	while (window.isOpen())
 	{
@@ -112,8 +112,11 @@ void view::draw(RenderWindow &window)
 		button5->show(window, -5, 0);
 		button6->show(window, 3, 0);
 		button7->show(window, -5, 0); 
-
-		window.draw(scene);
+		if (sc == 0) {
+			window.draw(scene); 
+		}
+		window.draw(sprite);
+		
 		window.display();
 
 		Event event;
@@ -137,7 +140,7 @@ void view::draw(RenderWindow &window)
 		//-----------------------------------Open------------------------------------------------------------------
 			if (IntRect(position_top.x, position_top.y, 50, 20).contains(Mouse::getPosition(window)))
 			{
-
+				sc++;
 				Button_top2->button.setFillColor((Color(180, 180, 180, 155)));
 				std::cout << menuNum << std::endl;
 				menuNum = 10;
@@ -149,7 +152,7 @@ void view::draw(RenderWindow &window)
 	//-----------------------------------Save------------------------------------------------------------------
 			if (IntRect(position_top.x + 60, position_top.y,50, 20).contains(Mouse::getPosition(window)))
 			{
-
+				sc++;
 				Button_top2->button.setFillColor((Color(180, 180, 180, 155)));
 				std::cout << menuNum << std::endl;
 				menuNum = 10;
@@ -164,14 +167,14 @@ void view::draw(RenderWindow &window)
 			if (IntRect(position.x, position.y, 90, 30).contains(Mouse::getPosition(window)))
 			{
 			
-				
+				sc++;
 				std::cout << menuNum << std::endl;
 				menuNum = 1;
 			
 				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 1)  
 				{
 
-					button->setColor((Color(180, 180, 180, 155)));
+				/*	button->setColor((Color(180, 180, 180, 155)));
 					button1->setColor((Color::White));
 					button2->setColor((Color::White));
 					button3->setColor((Color::White));
@@ -186,7 +189,7 @@ void view::draw(RenderWindow &window)
 					button4->show(window, -3, 0);
 					button5->show(window, -5, 0);
 					button6->show(window, 3, 0);
-					button7->show(window, -5, 0);
+					button7->show(window, -5, 0);*/
 					Button_top2->show(window, 0, 0);
 					drawPoint(window, flag);
 				}
@@ -205,8 +208,8 @@ void view::draw(RenderWindow &window)
 				std::cout << menuNum << std::endl;
 				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 2)
 				{
-
-					button->setColor((Color::White));
+					sc++;
+					/*button->setColor((Color::White));
 					button1->setColor((Color(180, 180, 180, 155)));
 					button2->setColor((Color::White));
 					button3->setColor((Color::White));
@@ -223,7 +226,7 @@ void view::draw(RenderWindow &window)
 					button5->show(window, -5, 0);
 					button6->show(window, 3, 0);
 					button7->show(window, -5, 0);
-					Button_top2->show(window, 0, 0);
+					Button_top2->show(window, 0, 0);*/
 					drawLine(window, flag);
 				}
 			}
@@ -238,7 +241,7 @@ void view::draw(RenderWindow &window)
 
 				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 3)
 				{
-				
+					sc++;
 					drawRectangle(window, flag);
 				}
 			
@@ -251,7 +254,7 @@ void view::draw(RenderWindow &window)
 				menuNum = 4;
 				
 				std::cout << menuNum << std::endl;
-
+				sc++;
 				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 4) 	drawCircle(window, flag);
 			}
 			else if (!IntRect(position.x, position.y + 45+ 45+ 45, 90, 30).contains(Mouse::getPosition(window))) {menuNum;  std::cout << menuNum << std::endl;  menuNum = 0;}
@@ -262,7 +265,7 @@ void view::draw(RenderWindow &window)
 				menuNum = 5;
 				
 				std::cout << menuNum << std::endl;
-
+				sc++;
 				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 5) drawText(window, flag);
 				}
 
@@ -271,7 +274,7 @@ void view::draw(RenderWindow &window)
 			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
 			{
 				menuNum = 6;
-				
+				sc++;
 				std::cout << menuNum << std::endl;
 
 				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 6) 
@@ -282,6 +285,23 @@ void view::draw(RenderWindow &window)
 			}
 
 			else if (!IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) { menuNum;  std::cout << menuNum << std::endl;  menuNum = 0; }
+
+	//-------------------------------------------------Erase---------------------------------------------------------------------
+			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
+			{
+				menuNum = 6;
+				sc++;
+				std::cout << menuNum << std::endl;
+
+				if (Mouse::isButtonPressed(Mouse::Left)) if (menuNum == 6)
+				{
+					drawFill(window, flag);
+				}
+
+			}
+
+			else if (!IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window))) { menuNum;  std::cout << menuNum << std::endl;  menuNum = 0; }
+
 	//---------------------------------------------------------Clean------------------------------------------------------------------------
 			if (IntRect(position.x, position.y + 45 + 45 + 45 + 45 + 45 + 45 + 45, 90, 30).contains(Mouse::getPosition(window)))
 			{
@@ -293,6 +313,18 @@ void view::draw(RenderWindow &window)
 					if (menuNum == 14) 
 					{
 						isMenu = false; GlobalMenu = false;
+						sc++;
+						rtexture->clear(Color::White);;
+						
+						pic = rtexture->getTexture().copyToImage();
+						pic.flipVertically();
+						Texture texture;
+						texture.loadFromImage(pic, IntRect(22, 32, 648, 548));
+						sprite.setTexture(texture);
+						sprite.setPosition(Vector2f(22, 32));
+						window.draw(sprite);
+						window.display();
+					
 					}
 					
 			}
@@ -353,9 +385,9 @@ void view::open(RenderWindow & window, int flag)
 	pic = rtexture->getTexture().copyToImage();
 	pic.flipVertically();
 	Texture texture1;
-	texture1.loadFromImage(pic, IntRect(20, 30, 650, 550));
+	texture1.loadFromImage(pic, IntRect(22, 32, 648, 548));
 	sprite; sprite.setTexture(texture1);
-	sprite.setPosition(Vector2f(20, 30));
+	sprite.setPosition(Vector2f(22, 32));
 	window.draw(sprite);
 
 	window.display();
@@ -405,7 +437,7 @@ void view::save(RenderWindow & window, int flag)
 	pic = rtexture->getTexture().copyToImage();
 	pic.flipVertically();
 
-	texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+	texture.loadFromImage(pic, IntRect(22, 32, 648, 548));
 
 	Image pic1 = texture.copyToImage();
 
@@ -461,13 +493,13 @@ void view::drawLine(RenderWindow & window, int flag)
 				
 				
 				rtexture->draw(line, 2, sf::Lines);
-				window.draw(line, 2, sf::Lines);
+				//window.draw(line, 2, sf::Lines);
 				 pic = rtexture->getTexture().copyToImage();
 				pic.flipVertically();
 				
-				texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+				texture.loadFromImage(pic, IntRect(22, 32, 648, 548));
 				sprite.setTexture(texture);
-				sprite.setPosition(Vector2f(20, 30));
+				sprite.setPosition(Vector2f(22, 32));
 				window.draw(sprite);
 				window.display();
 			}
@@ -537,9 +569,9 @@ void view::drawPoint(RenderWindow & window, int flag)
 				Image pic = rtexture->getTexture().copyToImage();
 				pic.flipVertically();
 				Texture texture;
-				texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+				texture.loadFromImage(pic, IntRect(22, 32, 648, 548));
 				Sprite sprite; sprite.setTexture(texture);
-				sprite.setPosition(Vector2f(20, 30));
+				sprite.setPosition(Vector2f(22, 32));
 				window.draw(sprite);
 				window.display();
 
@@ -551,7 +583,77 @@ void view::drawPoint(RenderWindow & window, int flag)
 	}
 }
 
+void view::drawFill(RenderWindow & window, int flag)
+{
 
+	int color = 0;
+	if (flag == 0)
+	{
+		isMenu = true;
+		std::cout << "isMenu" << isMenu << std::endl;
+		flag++;
+	}
+
+	while (isMenu)
+	{
+
+		setColor(color, window);
+
+
+		if (IntRect(20, 30, 650, 550).contains(Mouse::getPosition(window)))
+			if (Mouse::isButtonPressed(Mouse::Left))
+			{
+			
+				flag = 0;
+
+				Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
+				Vector2f pos = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
+
+
+				Image pic = rtexture->getTexture().copyToImage();
+				pic.flipVertically();
+				Color color1 = pic.getPixel(pos.x, pos.y);
+				floodFill(pic, pos.x, pos.y, color1, Color::Blue);
+				
+
+				Texture texture;
+				texture.loadFromImage(pic, IntRect(22, 32, 648, 548));
+				Sprite sprite; sprite.setTexture(texture);
+				sprite.setPosition(Vector2f(22, 32));
+
+				window.draw(sprite);
+				window.display();
+				
+
+
+
+			}
+		if (flag == 0)	root(window);
+
+	}
+}
+	
+
+
+
+void view::floodFill(Image &im, float x, float y, Color old, Color fill)
+{
+if (x < 670 && y < 580) {
+	Color current;
+	current = im.getPixel(x, y);
+	if (current == old)
+	{
+		im.setPixel(x, y, fill);
+		//delay(5);
+		floodFill(im, x + 1, y, old, fill);
+		floodFill(im, x - 1, y, old, fill);
+		floodFill(im, x, y + 1, old, fill);
+		floodFill(im, x, y - 1, old, fill);
+	}
+}
+else return;
+	
+}
 
 void view::drawRectangle(RenderWindow & window, int flag)
 {
@@ -608,9 +710,9 @@ void view::drawRectangle(RenderWindow & window, int flag)
 				 pic = rtexture->getTexture().copyToImage();
 				pic.flipVertically();
 				
-				texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+				texture.loadFromImage(pic, IntRect(22, 32, 648, 548));
 				sprite.setTexture(texture);
-				sprite.setPosition(Vector2f(20, 30));
+				sprite.setPosition(Vector2f(22, 32));
 				window.draw(sprite);
 
 				window.display();
@@ -681,9 +783,9 @@ void view::drawCircle(RenderWindow & window, int flag)
 									 pic = rtexture->getTexture().copyToImage();
 									pic.flipVertically();
 									
-									texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+									texture.loadFromImage(pic, IntRect(22, 32, 648, 548));
 								 sprite.setTexture(texture);
-									sprite.setPosition(Vector2f(20, 30));
+									sprite.setPosition(Vector2f(22, 32));
 									window.draw(sprite);
 
 									window.display();
@@ -708,7 +810,7 @@ void view::drawText(RenderWindow & window, int flag)
 	int x = 0;
 	TextBox tb(text);
 
-	fc.setFocusObject(&tb);
+	ff.setFocusObject(&tb);
 
 		if (flag == 0)
 		{
@@ -737,7 +839,7 @@ void view::drawText(RenderWindow & window, int flag)
 			{
 				flag = 0;
 				std::cout << "event1 " << std::endl;
-				FocusObject * fo = fc.getFocusObject();
+				FocusObject * fo = ff.getFocusObject();
 				if (fo != 0)
 					fo->event(event1);
 			}
@@ -758,9 +860,9 @@ void view::drawText(RenderWindow & window, int flag)
 			 pic = rtexture->getTexture().copyToImage();
 			pic.flipVertically();
 			
-			texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+			texture.loadFromImage(pic, IntRect(22, 32, 648, 548));
 			 sprite.setTexture(texture);
-			sprite.setPosition(Vector2f(20, 30));
+			sprite.setPosition(Vector2f(22, 32));
 			window.draw(sprite);
 
 			window.display();
@@ -809,9 +911,9 @@ void view::drawErace(RenderWindow & window, int flag)
 									 pic = rtexture->getTexture().copyToImage();
 									pic.flipVertically();
 									;
-									texture.loadFromImage(pic, IntRect(20, 30, 650, 550));
+									texture.loadFromImage(pic, IntRect(22, 32, 648, 548));
 									 sprite.setTexture(texture);
-									sprite.setPosition(Vector2f(20, 30));
+									sprite.setPosition(Vector2f(22, 32));
 									window.draw(sprite);
 
 									window.display();

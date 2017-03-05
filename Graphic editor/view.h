@@ -54,6 +54,12 @@ public:
 	void drawLine(RenderWindow &window, int flag);
 	void setColor(int &color, RenderWindow &window);
 	void drawPoint(RenderWindow & window, int flag);
+	void drawFill(RenderWindow & window, int flag);
+
+
+
+
+	void floodFill(Image &im, float x, float y, Color old, Color fill);
 	void drawRectangle(RenderWindow & window, int flag);
 	void drawCircle(RenderWindow & window, int flag);
 	void drawText(RenderWindow & window, int flag);
