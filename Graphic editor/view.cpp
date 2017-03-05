@@ -161,6 +161,101 @@ void view::draw(RenderWindow &window)
 			}
 
 			else if (!IntRect(position_top.x + 60, position_top.y, 50, 20).contains(Mouse::getPosition(window))) { menuNum = 0; Button_top2->button.setFillColor(Color::White); std::cout << menuNum << std::endl; }
+//-------------------------------------------------------Copy--------------------------------------------------------------------------------------
+			if (IntRect(position_top.x + 60 + 60, position_top.y, 50, 20).contains(Mouse::getPosition(window)))
+			{
+				sc++;
+
+
+				menuNum = 19;
+				std::cout << menuNum << std::endl;
+
+
+				if (Mouse::isButtonPressed(Mouse::Left))
+				{
+					flag = 0;
+					if (flag == 0)
+					{
+						isMenu = true;
+						std::cout << "isMenu" << isMenu << std::endl;
+						flag++;
+					}
+					Vector2f start, finish;
+					bool isMove;
+					Sprite getch;
+					int color = 0, dX = 0, dY = 0;
+					while (isMenu)
+					{
+						flag = 1;
+						if (IntRect(20, 30, 650, 550).contains(Mouse::getPosition(window)))
+						{
+							if (Mouse::isButtonPressed(Mouse::Left)) {
+								Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
+								start = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
+							}
+							if (Mouse::isButtonPressed(Mouse::Right))
+							{
+								Vector2i pixelPos = Mouse::getPosition(window);//забираем коорд курсора
+								finish = window.mapPixelToCoords(pixelPos);//переводим их в игровые (уходим от коорд ок
+								std::cout << "isStart " << start.x << "\t" << start.y << std::endl;
+								std::cout << "isFinish " << finish.x << "\t" << finish.y << std::endl;
+								pic = rtexture->getTexture().copyToImage();
+								pic.flipVertically();
+
+								texture.loadFromImage(pic, IntRect(start.x, start.y, finish.x, finish.y));
+
+								getch.setTexture(texture);
+								getch.setPosition(Vector2f(start.x, start.y));
+								/*window.draw(getch);
+								window.display();
+*/
+								flag = 0;
+							}
+								
+								Vector2i pixelPos1 = Mouse::getPosition(window);
+								Vector2f pos = window.mapPixelToCoords(pixelPos1);
+								while (flag == 0)
+								{
+
+
+									Event event3;
+									while (window.pollEvent(event3))
+									{
+
+										std::cout << "event";
+										if (event3.type == Event::MouseButtonPressed)
+											if (event3.key.code == Mouse::Left)
+												if (getch.getGlobalBounds().contains(pos.x, pos.y))
+												{
+													std::cout << "isClicked!\n";
+													dX = pos.x - getch.getPosition().x;
+													dY = pos.y - getch.getPosition().y;
+													isMove = true;
+												}
+										if (event3.type == Event::MouseButtonReleased)
+											if (event3.key.code == Mouse::Left)
+												isMove = false;
+										getch.setColor(Color::White);
+									}
+									if (isMove)
+									{
+										getch.setColor(Color::Green);//красим спрайт в зеленый 
+										getch.setPosition(pos.x - dX, pos.y - dY);//двигаем спрайт по Х
+
+									}
+									//getch.setPosition(Vector2f(start.x, start.y));
+									window.draw(getch);
+									window.display();
+								}
+							
+						}
+						
+					}
+
+				}
+			}
+
+			else if (!IntRect(position_top.x + 60 + 60, position_top.y, 50, 20).contains(Mouse::getPosition(window))) { menuNum = 0; Button_top2->button.setFillColor(Color::White); std::cout << menuNum << std::endl; }
 
 	//-------------------------------------------------Point-----------------------------------------------------	
 
